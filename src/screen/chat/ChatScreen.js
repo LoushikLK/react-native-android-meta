@@ -3,6 +3,8 @@ import { View, Text, ScrollView, TextInput, Dimensions, TouchableOpacity, Image,
 import { io } from "socket.io-client";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
+
 const ChatScreen = () => {
     const [user, setUser] = useState(null);
     const [conversations, setConversations] = useState([]);
@@ -50,6 +52,13 @@ const ChatScreen = () => {
             // console.log("connected to socket io");
             socketRef.current.emit("new-user-joined", userconnected);
         });
+        socketRef.current.on("user-joined", (details) => {
+            // console.log(details);
+            let data = JSON.parse(details);
+            console.log(data);
+            setAllUser(data.length);
+            // console.log(name + " joined");
+        });
         socketRef.current.on("recieve-chat-message", (data) => {
             // console.log("recieved message", data);
             setConversations([...conversations, data]);
@@ -76,7 +85,9 @@ const ChatScreen = () => {
 
 
 
+
     const handleSubmit = (e) => {
+
         if (newMessage !== "") {
             e.preventDefault();
             socketRef.current.emit("send-chat-message", {
@@ -92,18 +103,7 @@ const ChatScreen = () => {
     };
 
 
-    const scrollRef = useRef();
 
-
-    // useEffect(() => {
-    //     const scrollToBottom = () => {
-    //         if (conversations.length > 0) {
-    //             scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    //         }
-    //         return;
-    //     };
-    //     scrollToBottom();
-    // }, [conversations]);
 
     console.log(conversations + "conversation");
 
@@ -142,21 +142,22 @@ const ChatScreen = () => {
         <View style={{ height: "100%" }}>
             <ImageBackground source={require("../../image/chatbg.jpg")} resizeMode="cover" style={{ flex: 1 }}>
 
-                <Text style={{ width: "100%", textAlign: "center", paddingVertical: 5, fontSize: 20, backgroundColor: "#000000", color: "#ffffff" }}>
-                    Global active  10
+                <Text style={{ width: "100%", textAlign: "center", paddingVertical: 5, fontSize: 20, backgroundColor: "#000000", color: "#42f54e" }}>
+                    Global active  {allUser}
                 </Text>
 
 
-                <ScrollView style={{ flex: 1 }} >
+                <ScrollView style={{ flex: 1 }} ref={ref => { scrollView = ref }}
+                    onContentSizeChange={() => scrollView.scrollToEnd({ animated: true })} >
                     {conversations.map((item, index) => {
                         return (
 
-                            <View key={index}>
+                            <View key={index} >
 
                                 {item.user === user.profileName ?
                                     <View style={{ width: "100%", alignItems: "flex-end", justifyContent: "flex-end", marginRight: 5 }}>
                                         <Image source={{ uri: `${item.image}` }} resizeMode="cover" style={{ height: 40, width: 40, borderRadius: 50 }} />
-                                        <Text style={{ width: "70%", textAlign: "right", backgroundColor: "#1b9aff", margin: 7, padding: 7, borderRadius: 5 }}>{item.message}</Text>
+                                        <Text style={{ maxWidth: "70%", textAlign: "right", backgroundColor: "#1b9aff", margin: 7, padding: 7, borderRadius: 5 }}>{item.message}</Text>
                                         <Text style={{ marginHorizontal: 10 }}>{item.time}</Text>
 
                                     </View>
@@ -167,7 +168,7 @@ const ChatScreen = () => {
                                         <Image source={{ uri: `${item.image}` }} resizeMode="cover" style={{ height: 40, width: 40, borderRadius: 50 }} />
 
 
-                                        <Text style={{ width: "70%", textAlign: "left", backgroundColor: "#cbcbcb", margin: 7, padding: 7, borderRadius: 5 }}>{item.user}-  {item.message}</Text>
+                                        <Text style={{ maxWidth: "70%", textAlign: "left", backgroundColor: "#cbcbcb", margin: 7, padding: 7, borderRadius: 5 }}>{item.user}-  {item.message}</Text>
                                         <Text style={{ marginHorizontal: 10 }}>{item.time}</Text>
                                     </View>
                                 }

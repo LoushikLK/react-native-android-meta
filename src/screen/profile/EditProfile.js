@@ -196,7 +196,7 @@ const EditProfile = () => {
                     }
                 </View>
                 <TouchableOpacity onPress={chhoseCoverImage} style={{ width: "100%", height: 40, alignItems: "center", justifyContent: "center", marginTop: 5 }}>
-                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Edit Cover Image</Text>
+                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Edit Cover Image 🔁</Text>
                 </TouchableOpacity>
 
 
@@ -205,7 +205,7 @@ const EditProfile = () => {
             <View>
                 <TextInput onChangeText={setBio} value={bio} placeholder="Update bio..." style={{ borderWidth: 0.4, borderRadius: 5, paddingHorizontal: 15, paddingVertical: 5, margin: 10, backgroundColor: "#fffff0" }} />
                 <TouchableOpacity onPress={updatebio} style={{ width: "100%", height: 40, alignItems: "center", justifyContent: "center", marginTop: 5 }}>
-                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Update bio</Text>
+                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Update bio 🔺</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

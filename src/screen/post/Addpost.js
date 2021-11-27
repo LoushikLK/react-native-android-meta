@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Platform, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { View, Text, Platform, Image, TouchableOpacity, TextInput, ScrollView, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,7 @@ export default function Addpost({ navigation }) {
     const [image, setImage] = useState(null);
     const [caption, setCaption] = useState("")
     const [location, setLocation] = useState("")
+    const [postLoading, setPostLoading] = useState("Post")
 
     useEffect(() => {
         (async () => {
@@ -31,7 +32,7 @@ export default function Addpost({ navigation }) {
                 setUserData(JSON.parse(data))
 
             } catch (error) {
-                alert("An error occoured")
+                alert("An error occoured 😯")
                 console.log(error);
             }
 
@@ -47,7 +48,7 @@ export default function Addpost({ navigation }) {
             return
         }
         try {
-
+            setPostLoading("Posting...")
 
             // TODO: do something with -> this.state.file
 
@@ -82,12 +83,12 @@ export default function Addpost({ navigation }) {
 
             if (response.status === 200) {
 
-                alert("Post Successfully")
+                alert("Post Successfully 😄💯")
             }
 
 
 
-
+            setPostLoading("Post ")
             setCaption("");
             setLocation("");
             setImage(null);
@@ -141,20 +142,26 @@ export default function Addpost({ navigation }) {
                     )
                 }
                 <TouchableOpacity onPress={chhoseImage} style={{ width: "100%", height: 40, alignItems: "center", justifyContent: "center", marginTop: 5 }}>
-                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Choose Image</Text>
+                    <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5 }}>Choose Image 📷</Text>
                 </TouchableOpacity>
 
 
 
             </View>
             <View>
-                <TextInput placeholder="Add caption" onChangeText={setCaption} value={caption} style={{ borderBottomWidth: 0.4, borderRadius: 5, paddingHorizontal: 15, paddingVertical: 5, margin: 10 }} />
-                <TextInput placeholder="Location" onChangeText={setLocation} value={location} style={{ borderBottomWidth: 0.4, borderRadius: 5, paddingHorizontal: 15, paddingVertical: 5, margin: 10 }} />
+                <TextInput placeholder="😁 Add caption" onChangeText={setCaption} value={caption} style={style.textInput} />
+                <TextInput placeholder="🌏 Location" onChangeText={setLocation} value={location} style={style.textInput} />
 
             </View>
             <TouchableOpacity onPress={handleSubmit} style={{ width: "100%", alignItems: "center", justifyContent: "center", marginTop: 50 }}>
-                <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5, fontSize: 20 }}>Post</Text>
+                <Text style={{ color: "#ffffff", textAlign: "center", backgroundColor: "#0F7FFF", paddingHorizontal: 50, paddingVertical: 10, borderRadius: 5, fontSize: 20 }}>{postLoading}</Text>
             </TouchableOpacity>
         </ScrollView>
     )
 }
+
+const style = StyleSheet.create({
+    textInput: {
+        borderBottomWidth: 0.4, borderRadius: 5, paddingHorizontal: 15, paddingVertical: 7, margin: 10, backgroundColor: "#ffffff"
+    }
+})

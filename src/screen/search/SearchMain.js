@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
-import { View, Text, ScrollView, TextInput, Image } from 'react-native'
+import { View, Text, ScrollView, TextInput, Image, RefreshControl } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+
 
 const SearchMain = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState([])
+
 
     useEffect(() => {
         // console.log(searchTerm)

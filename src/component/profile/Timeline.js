@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, ScrollView, RefreshControl } from 'react-native'
 import PostLayout from '../../screen/post/PostLayout'
+
 
 const Timeline = (props) => {
     const [timelinedata, setTimelinedata] = useState([]);
-
-    console.log(props.userid);
-
 
     useEffect(() => {
         const getprofiledata = async () => {
@@ -38,9 +36,11 @@ const Timeline = (props) => {
         };
     }, [props.userid]);
 
-    console.log(timelinedata);
+    // console.log(timelinedata);
 
     return (
+
+
         <View>
 
             {timelinedata.length > 0
@@ -51,6 +51,7 @@ const Timeline = (props) => {
                 })
                 : <Text>You Haven't posted yet.</Text>}
         </View>
+
     )
 }
 
